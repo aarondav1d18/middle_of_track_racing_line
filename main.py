@@ -7,8 +7,27 @@ import matplotlib.pyplot as plt
 import csv
 from NURBS import NURBS
 import os
+import argparse
 
 ORIGIN = Cone()
+
+def arguments():
+    # Create a parser object
+    parser = argparse.ArgumentParser(description='Argument parser for middle line generation')
+
+    # Add a boolean flag `--pairs`. Default is False, set to True if provided
+    parser.add_argument('--pairs', '-p', action='store_true',
+                        help='Set this flag to activate pairs visualisation.')
+    parser.add_argument('--save', '-s', action='store_true',
+                        help='Set this flag to save the graphs.')
+    parser.add_argument('--display', '-d', action='store_false',
+                        help='Set this flag to not show the graph.')
+
+    # Parse the command-line arguments
+    args = parser.parse_args()
+
+    # Use the value of `args.pairs`
+    return args
 
 def read_cones(filename: str) -> ConeArray:
     '''
@@ -54,7 +73,7 @@ def read_cones(filename: str) -> ConeArray:
 
     return blue_cones, yellow_cones
 
-def generate_middle_line(blue_cones: List[float], yellow_cones: List[float]) -> None:
+def generate_middle_line(blue_cones: List[float], yellow_cones: List[float], args: argparse) -> None:
     '''
     This will find cones pairs based on proximity and then calculate the mid point between
     that pair and plot a line connecting them. It will then convert the path to a PathVelocityRequest
@@ -80,7 +99,8 @@ def generate_middle_line(blue_cones: List[float], yellow_cones: List[float]) -> 
         mid_points.append(midpoint)
 
         # Plot line between the current blue and yellow cone
-        plt.plot([blue_point[0], yellow_point[0]], [blue_point[1], yellow_point[1]], 'm-', alpha=0.5)
+        if args.pairs:
+            plt.plot([blue_point[0], yellow_point[0]], [blue_point[1], yellow_point[1]], 'm-', alpha=0.5)
 
         # Decide which cone pair to consider next based on proximity
         if bi < len(blue_cones) - 1 and yi < len(yellow_cones) - 1:
@@ -113,7 +133,7 @@ def generate_middle_line(blue_cones: List[float], yellow_cones: List[float]) -> 
     #     path_y.append(point[1] / point[2])
     plt.plot(path_x,path_y, '-', c='orange')
 
-def main(filename: str) -> None:
+def main(filename: str, args: argparse) -> None:
     '''
     This pretty much takes the file and calls the realated functions to get lists
     of the cones and then order them. It will then order the cones and generate the middle line.
@@ -132,11 +152,14 @@ def main(filename: str) -> None:
     for point in yellow_cones.cones:
         yellow_cones_list.append([point.position.x, point.position.y])
 
-    generate_middle_line(blue_cones_list, yellow_cones_list)
+    generate_middle_line(blue_cones_list, yellow_cones_list, args)
     num_graphs = len(os.listdir('graphs'))
-    # plt.savefig(f'graphs/track{num_graphs}')
-    plt.show()
+    if args.save:
+        plt.savefig(f'graphs/track{num_graphs}')
+    if args.display:
+        plt.show()
 
 if __name__ == '__main__':
+    args = arguments()
     for track in os.listdir('tracks'):
-        main(f'tracks/{track}')
+        main(f'tracks/{track}', args)

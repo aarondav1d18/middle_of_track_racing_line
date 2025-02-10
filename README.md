@@ -4,11 +4,26 @@ This project was initally made as a proof of concept from something I was workin
 
 ## Running script
 
-If you would like to save the plots then you will need to go to the bottom of the main function and uncomment out the plt.savefig line. Apart from that the script will run and iterate through the files in the tracks folder so if you would like it add a track it should work as long as the provided track is using the same format. When iterating through the script will dispaly the graph with the calculated middline and will display the pairs of cones.
+This will iterate through the tracks folder and run the script on everything that is in there. If you would like to add a track then as long as it is following the same format then it should work. 
 
-To run the script use the following command:
+The actual script will take the cones from the file and order them from cloest out. From these it will then generate a middle line by setting pairs of cones using a proximity selection and then generating a middle point between this pair. You could then apply a simple spline function such as NURBS which is included but not implemented (NOTE: Will be added soon).
+
+To run the script use the following commands:
 
 `python3 main.py`
+
+This will run the file with the settings of:
+    - Not saving graphs
+    - Not showing pairs
+    - Showing graph
+
+To change this you can use the following:
+
+`--pairs` or `-p` to show pairs
+
+`--display` or `-d` to not show the graphs
+
+`--save` or `-s` to save the graphs
 
 ## Images
 
