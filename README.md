@@ -6,7 +6,7 @@ This project was initally made as a proof of concept from something I was workin
 
 This will iterate through the tracks folder and run the script on everything that is in there. If you would like to add a track then as long as it is following the same format then it should work. 
 
-The actual script will take the cones from the file and order them from cloest out. From these it will then generate a middle line by setting pairs of cones using a proximity selection and then generating a middle point between this pair. You could then apply a simple spline function such as NURBS which is included but not implemented (NOTE: Will be added soon).
+The actual script will take the cones from the file and order them from cloest out. From these it will then generate a middle line by setting pairs of cones using a proximity selection and then generating a middle point between this pair. You could then apply a simple spline function to the middle line to 'smooth' out the path (NOTE: The implementation of the spline has some issues so doesnt produce the best line but that will be worked on soon).
 
 To run the script use the following commands:
 
@@ -24,6 +24,8 @@ To change this you can use the following:
 `--display` or `-d` to not show the graphs
 
 `--save` or `-s` to save the graphs
+
+`--spline` or `-n` to apply a spline to middle line
 
 ## Images
 

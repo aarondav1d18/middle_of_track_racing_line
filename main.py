@@ -22,6 +22,8 @@ def arguments():
                         help='Set this flag to save the graphs.')
     parser.add_argument('--display', '-d', action='store_false',
                         help='Set this flag to not show the graph.')
+    parser.add_argument('--spline', '-n', action='store_true',
+                        help='Set this flag to not show the graph.')
 
     # Parse the command-line arguments
     args = parser.parse_args()
@@ -118,14 +120,19 @@ def generate_middle_line(blue_cones: List[float], yellow_cones: List[float], arg
             break
 
     # This will generate a NURBS curve to smooth out
-    # nurbs = NURBS()
-    # mid_line = nurbs.generateNURBS(mid_points)
-
     path_x = []
     path_y = []
-    for point in mid_points:
-        path_x.append(point[0])
-        path_y.append(point[1])
+
+    if args.spline:
+        nurbs = NURBS()
+        mid_line = nurbs.generateNURBS(mid_points)
+        for point in mid_line.evalpts:
+            path_x.append(point[0] / point[2])
+            path_y.append(point[1] / point[2])
+    else:
+        for point in mid_points:
+            path_x.append(point[0])
+            path_y.append(point[1])
 
 
     # for point in mid_line.evalpts:

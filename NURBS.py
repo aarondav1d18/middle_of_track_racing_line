@@ -15,7 +15,6 @@ class NURBS():
 		'''
 		control_points = []
 		crv = BSpline.Curve()
-		print(path)
 
 		for point in path:
 			# using a exponetial decay multiplier for weight
