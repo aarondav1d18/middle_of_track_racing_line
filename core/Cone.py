@@ -7,7 +7,7 @@ class Cone:
     YELLOW = 3
     UNKNOWN = 4
 
-    def __init__(self, position=None, position_covariance=None, colour=UNKNOWN, colour_probability=0.0, existence_probability=0.0):
+    def __init__(self, position=None, colour=UNKNOWN):
         self.position = position if position else Point()
         self.colour = colour
 

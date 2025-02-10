@@ -66,7 +66,6 @@ def generate_middle_line(blue_cones: List[float], yellow_cones: List[float]) -> 
     '''
     mid_points = []
     bi, yi = 0, 0
-    # plt.figure(figsize=(10, 5))
 
     # Plot cones
     plt.plot(np.array(blue_cones)[:, 0], np.array(blue_cones)[:, 1], 'bo', label='Blue Cones')
@@ -112,7 +111,7 @@ def generate_middle_line(blue_cones: List[float], yellow_cones: List[float]) -> 
     # for point in mid_line.evalpts:
     #     path_x.append(point[0] / point[2])
     #     path_y.append(point[1] / point[2])
-    plt.plot(path_x,path_y, '-')
+    plt.plot(path_x,path_y, '-', c='orange')
 
 def main(filename: str) -> None:
     '''
@@ -120,6 +119,10 @@ def main(filename: str) -> None:
     of the cones and then order them. It will then order the cones and generate the middle line.
     And then plots
     '''
+    plt.figure(figsize=(15, 10))
+    ax = plt.gca()  # Get the current axes
+    ax.set_facecolor("black")
+    plt.grid(color = 'teal', linestyle = '-', linewidth = 0.5)
     blue_cones, yellow_cones = read_cones(filename)
     blue_cones, yellow_cones = order_blue_and_yellow_cones(blue_cones, yellow_cones, ORIGIN)
     blue_cones_list = []
@@ -131,7 +134,7 @@ def main(filename: str) -> None:
 
     generate_middle_line(blue_cones_list, yellow_cones_list)
     num_graphs = len(os.listdir('graphs'))
-    plt.savefig(f'graphs/track{num_graphs}')
+    # plt.savefig(f'graphs/track{num_graphs}')
     plt.show()
 
 if __name__ == '__main__':
